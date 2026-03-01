@@ -1,0 +1,101 @@
+# Default configuration for Audio-to-MIDI conversion
+
+# Model configuration
+model:
+  type: "baseline"  # "baseline", "transformer", "cnn", "lstm"
+  
+  baseline:
+    sr: 22050
+    hop_length: 512
+    n_fft: 2048
+    onset_threshold: 0.1
+    onset_pre_max: 3
+    onset_post_max: 3
+    onset_pre_avg: 3
+    onset_post_avg: 5
+    onset_delta: 0.2
+    onset_wait: 0
+    pitch_fmin: 80.0
+    pitch_fmax: 2000.0
+    pitch_threshold: 0.1
+    min_note_duration: 0.05
+    min_velocity: 20
+    quantization_resolution: 0.125
+    merge_tolerance: 0.05
+  
+  deep_learning:
+    model_type: "transformer"
+    input_dim: 128
+    hidden_dim: 512
+    num_layers: 6
+    num_heads: 8
+    dropout: 0.1
+    sr: 22050
+    hop_length: 512
+    n_fft: 2048
+    n_mels: 128
+    max_pitch: 127
+    max_velocity: 127
+    num_events: 4
+    learning_rate: 1e-4
+    batch_size: 16
+    max_length: 1000
+    beam_size: 1
+    temperature: 1.0
+
+# Data configuration
+data:
+  sr: 22050
+  hop_length: 512
+  n_fft: 2048
+  n_mels: 128
+  fmin: 0.0
+  fmax: null
+  enable_augmentation: true
+  pitch_shift_range: [-2.0, 2.0]
+  time_stretch_range: [0.9, 1.1]
+  noise_level: 0.01
+  normalize_audio: true
+  apply_preemphasis: false
+  preemphasis_coeff: 0.97
+  quantization_resolution: 0.125
+  min_note_duration: 0.05
+  max_polyphony: 10
+  max_audio_length: 30.0
+  min_audio_length: 1.0
+
+# Training configuration
+training:
+  num_epochs: 100
+  batch_size: 16
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  num_workers: 4
+  save_every: 10
+  validate_every: 1
+  early_stopping_patience: 10
+
+# Evaluation configuration
+evaluation:
+  onset_tolerance: 0.05
+  offset_tolerance: 0.1
+  pitch_tolerance: 1
+  velocity_tolerance: 10
+  max_polyphony: 10
+  frame_tolerance: 0.05
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_every: 100
+  tensorboard: true
+  wandb: false
+  wandb_project: "audio-to-midi"
+
+# Demo configuration
+demo:
+  max_audio_length: 30.0
+  supported_formats: ["wav", "mp3", "flac", "m4a"]
+  output_format: "mid"
+  enable_preview: true
+  enable_metrics: true
